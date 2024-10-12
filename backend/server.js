@@ -1,27 +1,29 @@
 const express = require('express');
 const cors = require('cors');
-const { spawn } = require('child_process');
-
+//const { spawn } = require('child_process');
 const app = express();
+const port = 3000;
+const axios = require('axios');
+
 app.use(cors());
 app.use(express.json());
 
-app.post('/ask', (req, res) => {
-  const question = req.body.question;
+// Ruta para manejar las preguntas del chatbot
+app.post('/api/chatbot', async (req, res) => {
+  const { pregunta } = req.body;
 
-  // Ejecuta el modelo de Python
-  const python = spawn('python3', ['./model.py', question]);
+  try {
+    // Realiza la petición al servidor Flask en el puerto 5001
+    const response = await axios.post('http://localhost:5001/api/chatbot', { pregunta });
+    const respuestaChatbot = response.data.respuesta;
 
-  python.stdout.on('data', (data) => {
-    res.json({ answer: data.toString() });
-  });
-
-  python.stderr.on('data', (data) => {
-    console.error(`Error: ${data}`);
-    res.status(500).send('Error en el servidor');
-  });
+    res.json({ respuesta: respuestaChatbot });
+  } catch (error) {
+    console.error('Error al conectar con el chatbot:', error);
+    res.status(500).json({ mensaje: 'Error al conectar con el chatbot.' });
+  }
 });
 
-app.listen(3000, () => {
-  console.log('Servidor corriendo en http://localhost:3000');
+app.listen(port, () => {
+  console.log(`Servidor Node.js corriendo en el puerto ${port}`);
 });
