@@ -43,8 +43,13 @@ function App() {
         <div className="chat-history">
           {chatHistory.map((message, index) => (
             <div key={index} className={`message ${message.sender}`}>
+            {/* Renderizar HTML en las respuestas del bot */}
+            {message.sender === 'bot' ? (
+              <p dangerouslySetInnerHTML={{ __html: message.text }} />
+            ) : (
               <p>{message.text}</p>
-            </div>
+            )}
+          </div>
           ))}
         </div>
 

@@ -44,7 +44,7 @@ def predecir_respuesta(modelo, pregunta, datos, umbral=0.05):  # Reducir el umbr
     proba = modelo.predict_proba([pregunta])
     mejor_prediccion = proba.max()
 
-    enlace_ticket = "\n\nSi este mensaje no responde tu pregunta o deseas continuar hablando con un agente, puedes abrir un ticket de soporte en este siguiente enlace: https://clientes.koryfi.com/submitticket.php?step=2&deptid=1"
+    enlace_ticket = '\n\nSi este mensaje no responde tu pregunta o deseas continuar hablando con un agente, puedes <a href="https://clientes.koryfi.com/submitticket.php?step=2&deptid=1" target="_blank">abrir un ticket de soporte</a>.'
 
     if mejor_prediccion > umbral:
         intencion_predicha = modelo.predict([pregunta])[0]
@@ -55,7 +55,7 @@ def predecir_respuesta(modelo, pregunta, datos, umbral=0.05):  # Reducir el umbr
         else:
             return "No se encontró una respuesta para esta intención." + enlace_ticket
     else:
-        return "No tengo la respuesta a esta pregunta, puedes intentar abrir un ticket aquí: https://clientes.koryfi.com/submitticket.php?step=2&deptid=1"
+        return 'No tengo la respuesta a esta pregunta, puedes intentar <a href="https://clientes.koryfi.com/submitticket.php?step=2&deptid=1" target="_blank">abrir un ticket aquí</a>.'
 
 
 class Chatbot:
