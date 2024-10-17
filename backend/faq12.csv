@@ -85,12 +85,12 @@ Ten presente que no es del todo necesario la compra del certificado, el público
 
 Podemos abrir la orden de compra por ti, o puedes ingresar para comprarlo desde: 
 
-- 1 Dominio o subdominio: [https://clientes.koryfi.com/store/ssl-certificates/go/dv](https://clientes.koryfi.com/store/ssl-certificates/go/dv)
-- Múltiples subdominios: [https://clientes.koryfi.com/store/ssl-certificates/go/wildcard](https://clientes.koryfi.com/store/ssl-certificates/go/wildcard)
+- 1 Dominio o subdominio: https://clientes.koryfi.com/store/ssl-certificates/go/dv
+- Múltiples subdominios: https://clientes.koryfi.com/store/ssl-certificates/go/wildcard
 "
 ¿Por qué mi sitio web aparece como no seguro? ¿Creo que no tengo mi SSL Activo?,por qué mi sitio web aparece como no seguro creo que no tengo mi ssl activo,SSL sin instalar o activar,SSL,"Los certificados SSL se instalan automáticamente al cabo de algunos minutos de activarse el servicio o de vincularse el dominio (El dominio debe apuntar al servidor).
 
-Recuerda que lo puedes validar ingresando al dominio incluyendo al inicio: https://  (Ejemplo: **https://**koryfi.com)
+Recuerda que lo puedes validar ingresando al dominio incluyendo al inicio: https://  (Ejemplo: ** https:// ** koryfi.com)
 
 En caso de aún no activarse automáticamente, encuentras la opción para hacerlo en la sección de seguridad:
 
@@ -141,9 +141,9 @@ Una vez realices el pago, por favor nos envías el comprobante a pagos@koryfi.co
 
 1. Enlace de pago abierto de Epayco:
 
-[https://secure.payco.co/checkoutopen/55196](https://secure.payco.co/checkoutopen/55196)
+https://secure.payco.co/checkoutopen/55196
 
 
 2. Enlace de pago abierto de Wompi (Solo en Pesos Colombianos):
 
-[https://checkout.wompi.co/l/R0x2PG](https://checkout.wompi.co/l/R0x2PG)"
+https://checkout.wompi.co/l/R0x2PG"

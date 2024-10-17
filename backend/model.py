@@ -38,6 +38,21 @@ def entrenar_modelo(preguntas_normalizadas, intenciones, categorias, respuestas)
     modelo.fit(preguntas_con_categoria, intenciones)  # Entrenamos con preguntas y categorías
     return modelo
 
+# Función para manejar saltos de línea en respuestas
+def formatear_respuesta(texto):
+    # Convertir saltos de línea "\n" en etiquetas <br> para mostrarlos en HTML
+    return texto.replace('\n', '<br>')
+
+
+# Función para detectar URLs en una cadena de texto y convertirlas en enlaces clickeables
+def hacer_urls_clickeables(texto):
+    # Expresión regular para detectar URLs
+    url_regex = r'(https?://[^\s]+)'
+    
+    # Reemplazar cada URL por una etiqueta <a> HTML
+    texto_con_enlaces = re.sub(url_regex, r'<a href="\1" target="_blank">\1</a>', texto)
+    return texto_con_enlaces
+
 # Función para predecir respuesta
 def predecir_respuesta(modelo, pregunta, datos, umbral=0.05):  # Reducir el umbral
     pregunta_limpia = limpiar_texto(pregunta)  # Limpiar el texto de la pregunta
@@ -47,14 +62,19 @@ def predecir_respuesta(modelo, pregunta, datos, umbral=0.05):  # Reducir el umbr
     enlace_ticket = '\n\nSi este mensaje no responde tu pregunta o deseas continuar hablando con un agente, puedes <a href="https://clientes.koryfi.com/submitticket.php?step=2&deptid=1" target="_blank">abrir un ticket de soporte</a>.'
 
     if mejor_prediccion > umbral:
+        # Obtener la intención predicha y la respuesta correspondiente
         intencion_predicha = modelo.predict([pregunta])[0]
         respuesta = datos.loc[datos['intención'] == intencion_predicha, 'respuesta'].values[0]
-        if len(respuesta) > 0:
-            return respuesta + " " + enlace_ticket
-            #return f"Intención detectada: {intencion_predicha}. Respuesta: " + respuesta + " " + enlace_ticket
-        else:
-            return "No se encontró una respuesta para esta intención." + enlace_ticket
+        
+        # Aplicar formateo de URLs y saltos de línea solo a la respuesta del CSV
+        respuesta_formateada = formatear_respuesta(respuesta)
+        enlace_ticket_formateado = formatear_respuesta(enlace_ticket)
+        respuesta_con_enlaces = hacer_urls_clickeables(respuesta_formateada)
+        
+        # Concatenar la respuesta con el enlace del ticket
+        return respuesta_con_enlaces + " " + enlace_ticket_formateado
     else:
+        # Respuesta cuando no se encuentra una intención con suficiente confianza
         return 'No tengo la respuesta a esta pregunta, puedes intentar <a href="https://clientes.koryfi.com/submitticket.php?step=2&deptid=1" target="_blank">abrir un ticket aquí</a>.'
 
 
@@ -69,14 +89,19 @@ class Chatbot:
     
     def responder(self, pregunta):
         # Usar la función predecir_respuesta para obtener la respuesta
-        return predecir_respuesta(self.modelo, pregunta, self.datos_csv)
+        respuesta = predecir_respuesta(self.modelo, pregunta, self.datos_csv)
+        # Asegurarse de que los saltos de línea y URLs sean formateados correctamente
+        #respuesta_formateada = formatear_respuesta(respuesta)
+        #respuesta_con_enlaces = hacer_urls_clickeables(respuesta_formateada)
+        #return respuesta_con_enlaces
+        return respuesta
 
 
 app = Flask(__name__)
 CORS(app)
 
 # Inicializar el chatbot globalmente
-bot = Chatbot('./faq11.csv')
+bot = Chatbot('./faq12.csv')
 
 @app.route('/api/chatbot', methods=['POST'])
 def chatbot():

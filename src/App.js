@@ -1,9 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
   const [inputValue, setInputValue] = useState('');
   const [chatHistory, setChatHistory] = useState([]);
+  const [greetingShown, setGreetingShown] = useState(false); // Nuevo estado para controlar el saludo inicial
+
+  // Mostrar saludo al iniciar la conversación
+  useEffect(() => {
+    if (!greetingShown) {
+      const greetingMessage = { sender: 'bot', text: 'Hola, ¿en qué podemos ayudarte hoy?' };
+      setChatHistory([greetingMessage]); // Añadir el saludo al historial
+      setGreetingShown(true); // Marcar el saludo como mostrado
+    }
+  }, [greetingShown]); // Solo se ejecutará una vez
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
